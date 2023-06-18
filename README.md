@@ -80,3 +80,6 @@ yarn dev
 ```
 yarn build
 ```
+
+### Document 
+You can read further inside docs folder to explore more.
