@@ -1,0 +1,56 @@
+image: node:18
+pipelines:
+  branches:
+    main:
+      - step:
+          name: "Publish to Chromatic on the main branch"
+          caches:
+            - node
+          script:
+            - yarn install --fronzen-lockfile
+            - yarn build:packages
+            - cd apps/shield-react
+            - yarn publish:chromatic --auto-accept-changes
+
+      # /* This step for parallel publish to Chromatic and push to Docker hub */
+      # - parallel:
+      #     fail-fast: true
+      #     steps:
+      #       - step:
+      #           name: publish chromatic
+      #           caches:
+      #             - node
+      #           script:
+      #             - yarn install --fronzen-lockfile
+      #             - yarn build:packages
+      #             - cd apps/shield-react
+      #             - yarn publish:chromatic --auto-accept-changes
+      #       - step:
+      #           name: build docker
+      #           services:
+      #             - docker
+      #           script:
+      #             - IMAGE_NAME="linhvuquachasdockerhub/shield:latest"
+      #             - docker build -t ${IMAGE_NAME} -f apps/shield-react/Dockerfile .
+      #             - docker login -u "${DOCKERHUB_USERNAME}" -p ${DOCKERHUB_PASSWORD}
+      #             - docker push ${IMAGE_NAME}
+  pull-requests:
+    feature/*: # this will run on any branch with a feature/ prefix that has a PR open
+      - step:
+          name: Run on Pull Request to Main
+          caches:
+            - node
+          script:
+            - |
+              if [[ "$BITBUCKET_PR_DESTINATION_BRANCH" == "main" ]]; then
+                # Install dependencies
+                yarn install --fronzen-lockfile
+                yarn build:packages
+                # Go inside the Storybook module
+                cd apps/shield-react
+
+                # Deploy to Chromatic
+                yarn publish:chromatic --exit-zero-on-changes
+              else
+                echo "Skipping pipeline as it's not a pull request to main";
+              fi

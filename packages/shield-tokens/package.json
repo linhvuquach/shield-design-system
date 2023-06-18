@@ -1,0 +1,27 @@
+{
+  "name": "@linhvuquach/shield-tokens",
+  "version": "0.0.1",
+  "description": "linhvuquach shield design tokens",
+  "files": [
+    "dist/**"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "node build.js && prettier -w dist && bash .clone-into-storybook.sh",
+    "test": "test",
+    "clean": "npx rimraf node_modules && npx rimraf dist"
+  },
+  "keywords": [
+    "linhvuquach shield-tokens"
+  ],
+  "author": "linhvuquachteam",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "style-dictionary": "^3.8.0"
+  }
+}

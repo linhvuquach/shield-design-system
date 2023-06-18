@@ -1,0 +1,43 @@
+{
+  "private": true,
+  "scripts": {
+    "prepare": "husky install",
+    "build": "yarn build:info && turbo build --filter=\"./apps/*\"",
+    "build:packages": "yarn build:info && turbo build --filter=\"./packages/*\"",
+    "start": "turbo start",
+    "build:info": "node .build-info.ts",
+    "static:build": "turbo static:build",
+    "static:run": "turbo static:run",
+    "dev": "turbo dev --no-cache --continue",
+    "storybook": "",
+    "lint": "turbo lint",
+    "clean": "turbo clean && npx rimraf node_modules",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "publish:chromatic": "turbo publish:chromatic",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "pretty": "prettier -w ."
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.22.0",
+    "@linhvuquach/eslint-config": "*",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "eslint": "^7.32.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
+    "turbo": "^1.9.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json}": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "packageManager": "yarn@1.22.19",
+  "engines": {
+    "node": ">=16",
+    "npm": "please use yarn."
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

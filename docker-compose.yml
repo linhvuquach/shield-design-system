@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  linhvuquach_shield_react:
+    container_name: react-app
+    build:
+      context: .
+      dockerfile: ./apps/shield-react/Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
